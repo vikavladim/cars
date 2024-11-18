@@ -1,0 +1,29 @@
+{% extends 'cars/base.html' %}
+
+{% block title %}
+    Информация о автомобиле
+{% endblock %}
+{% block content %}
+    <h1>{{ car.make }} {{ car.model }} ({{ car.year }})</h1>
+    <p>{{ car.description }}</p>
+    <h2>Комментарии:</h2>
+    {% if comments %}
+        <ul class="list-group">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    <p>{{ comment.content }}</p>
+                    <small>Автор: {{ comment.author }} | Дата: {{ comment.created_at }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Здесь пока нет комментариев.</p>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="content"></textarea>
+            <button type="submit">Добавить комментарий</button>
+        </form>
+    {% endif %}
+{% endblock %}

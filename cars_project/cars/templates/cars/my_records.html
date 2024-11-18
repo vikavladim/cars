@@ -1,0 +1,50 @@
+{% extends 'cars/base.html' %}
+
+{% block title %}
+    Мои записи
+{% endblock %}
+
+{% block content %}
+    <h1>Мои автомобили</h1>
+    <a href="{% url 'car_add' %}" class="btn btn-primary">Добавить</a>
+    {% if cars %}
+        <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for car in cars %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <p class="card-text"><a
+                                        href="{% url 'car_detail' car.id %}">{{ car.make }} {{ car.model }}
+                                    ({{ car.year }})</a></p>
+                                <p class="card-text">{{ car.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="{% url 'car_delete' car.id %}"
+                                           class="btn btn-sm btn-outline-secondary">Удалить</a>
+                                        <a href="{% url 'car_edit' car.id %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                                    </div>
+                                    <small class="text-body-secondary">{{ car.created_at }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <p>Здесь пока нет автомобилей.</p>
+    {% endif %}
+
+    <h1>Мои комментарии</h1>
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>{{ comment.content }} ({{ comment.created_at }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Здесь пока нет комментариев.</p>
+    {% endif %}
+{% endblock %}

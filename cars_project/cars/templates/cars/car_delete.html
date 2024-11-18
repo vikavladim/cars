@@ -1,0 +1,16 @@
+{% extends 'cars/base.html' %}
+
+{% block title %}
+    Удалить автомобиль
+{% endblock %}
+
+{% block content %}
+
+    <h1>Удалить автомобиль</h1>
+    <p>Вы уверены, что хотите удалить автомобиль {{ car.make }} {{ car.model }} ({{ car.year }})?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+    </form>
+
+{% endblock %}

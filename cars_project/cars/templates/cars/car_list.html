@@ -1,0 +1,44 @@
+{% extends 'cars/base.html' %}
+
+{% block title %}
+    Список автомобилей
+{% endblock %}
+
+{% block content %}
+
+    <h1>Список автомобилей</h1>
+    {% if user.is_authenticated %}
+        <a href="{% url 'car_add' %}" class="btn btn-primary">Добавить</a>
+    {% endif %}
+    <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for car in cars %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <p class="card-text"><a href="{% url 'car_detail' car.id %}">{{ car.make }} {{ car.model }}
+                                ({{ car.year }})</a></p>
+                            <p class="card-text">{{ car.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    {% if request.user == car.owner %}
+                                        <a href="{% url 'car_delete' car.id %}"
+                                           class="btn btn-sm btn-outline-secondary">Удалить</a>
+                                        <a href="{% url 'car_edit' car.id %}"
+                                           class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                                    {% else %}
+                                        <a href="{% url 'car_detail' car.id %}"
+                                           class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                                    {% endif %}
+                                </div>
+                                <small class="text-body-secondary">{{ car.created_at }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
